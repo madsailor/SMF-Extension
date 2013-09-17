@@ -1,4 +1,4 @@
-Stock Market Functions for LibreOffice Calc
+Stock Market Data for LibreOffice Calc
 ================================
 
 *A compiled and ready-to-install version of this extension is available at the [LibreOffice Extension Center](http://extensions.libreoffice.org/extension-center).*
@@ -16,28 +16,18 @@ Where *ticker* is the standard symbol ex. AAPL and *datacode* is the data elemen
 The current datacode list:
 -------------
 
-Code|Element
-----|----
-1|Price
-2|Change
-3|Volume
-4|Avg.Volume
-5|Exchange
-6|Market Cap
-7|Book Value
-8|EBITDA
-9|Dividends Per Share
-10|Dividend Yield
-11|EPS
-12|52 Week High
-13|52 Week Low
-14|50 Day SMA
-15|200 Day SMA
-16|PE Ratio
-17|PEG Ratio
-18|PriceSales
-19|PriceBook
-20|Short Ratio
+Code|Element||Code|Element
+----|----|----|----|----
+1|Price||11|EPS
+2|Change||12|52 Week High
+3|Volume||13|52 Week Low
+4|Avg.Volume||14|50 Day SMA
+5|Exchange||15|200 Day SMA
+6|Market Cap||16|PE Ratio
+7|Book Value||17|PEG Ratio
+8|EBITDA||18|PriceSales
+9|Dividends Per Share||19|PriceBook
+10|Dividend Yield||20|Short Ratio
 
 Additional sources to (hopefully) be implemented 
 -------------------------
