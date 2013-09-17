@@ -16,71 +16,28 @@ Where *ticker* is the standard symbol ex. AAPL and *datacode* is the data elemen
 The current datacode list:
 -------------
 
-&lt;table&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Code&lt;/th&gt;&lt;th&gt;Element&lt;/th&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;1&lt;/td&gt;&lt;td&gt;Price&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;2&lt;/td&gt;&lt;td&gt;Change&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;3&lt;/td&gt;&lt;td&gt;Volume&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;4&lt;/td&gt;&lt;td&gt;Avg.Volume&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;5&lt;/td&gt;&lt;td&gt;Exchange&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;6&lt;/td&gt;&lt;td&gt;Market Cap&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;7&lt;/td&gt;&lt;td&gt;Book Value&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;8&lt;/td&gt;&lt;td&gt;EBITDA&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;9&lt;/td&gt;&lt;td&gt;Dividends Per Share&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;10&lt;/td&gt;&lt;td&gt;Dividend Yield&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;11&lt;/td&gt;&lt;td&gt;EPS&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;12&lt;/td&gt;&lt;td&gt;52 Week High&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;13&lt;/td&gt;&lt;td&gt;52 Week Low&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;14&lt;/td&gt;&lt;td&gt;50 Day SMA&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;15&lt;/td&gt;&lt;td&gt;200 Day SMA&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;16&lt;/td&gt;&lt;td&gt;P/E Ratio&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;17&lt;/td&gt;&lt;td&gt;P/E/G Ratio&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;18&lt;/td&gt;&lt;td&gt;Price/Sales&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;19&lt;/td&gt;&lt;td&gt;Price/Book&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;20&lt;/td&gt;&lt;td&gt;Short Ratio&lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;
+Code|Element
+----|----
+1|Price
+2|Change
+3|Volume
+4|Avg.Volume
+5|Exchange
+6|Market Cap
+7|Book Value
+8|EBITDA
+9|Dividends Per Share
+10|Dividend Yield
+11|EPS
+12|52 Week High
+13|52 Week Low
+14|50 Day SMA
+15|200 Day SMA
+16|PE Ratio
+17|PEG Ratio
+18|PriceSales
+19|PriceBook
+20|Short Ratio
 
 Additional sources to (hopefully) be implemented 
 -------------------------
