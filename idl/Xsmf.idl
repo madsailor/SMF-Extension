@@ -1,0 +1,11 @@
+#include </usr/share/idl/libreoffice/com/sun/star/uno/XInterface.idl>
+
+module com { module smf { module ticker { module getinfo {
+
+    interface XYahoo
+    {
+      // Modeled as an 'any' to allow it to be NULL/None/Missing.
+      any getYahoo( [in] string a, [in] any b ); 
+    };
+
+}; }; }; };
