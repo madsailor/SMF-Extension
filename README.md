@@ -21,7 +21,7 @@ The current datacode list:
 Code|Element||Code|Element||Code|Element
 ----|----|----|----|----|----|----|----
 1|Price||29|Last Trade (Price Only)||57|Volume
-2||Dividend per Share||30|1 yr Target Price||58|Ask Size
+2|Dividend per Share||30|1 yr Target Price||58|Ask Size
 3|Ask (Realtime)||31|Todays Value Change||59|Bid Size
 4|Dividend Pay Date||32|Holdings Gain Percent||60|Last Trade Size
 5|Bid (Realtime)||33|Todays Value Change (Realtime)||61|Ticker Trend
