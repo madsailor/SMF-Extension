@@ -1,10 +1,22 @@
+#  generate_metainfo.py - Generate XML for SMF Extension
+#
+#  Copyright (c) 2013 David Capron (drbluesman@yahoo.com)
+#
+#  license: GNU LGPL
+#
+#  This library is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU Lesser General Public
+#  License as published by the Free Software Foundation; either
+#  version 3 of the License, or (at your option) any later version.
+#
 # Based on example by jan@biochemfusion.com
+#
 import os
 cur_dir = os.getcwd()
 
 # A unique ID for the extension.
 addin_id = "com.smf.ticker.getinfo"
-addin_version = "0.10"
+addin_version = "1.00"
 addin_displayname = "Stock Market Function Extension."
 addin_publisher_link = "https://github.com"
 addin_publisher_name = "Dave"
