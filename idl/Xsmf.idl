@@ -2,7 +2,7 @@
 
 module com { module smf { module ticker { module getinfo {
 
-    interface XYahoo
+    interface XSmf
     {
       // Modeled as an 'any' to allow it to be NULL/None/Missing.
       any getYahoo( [in] string a, [in] any b ); 

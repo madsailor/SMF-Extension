@@ -14,7 +14,7 @@ regmerge -v "${PWD}"/SMF/Xsmf.rdb UCR "${PWD}"/idl/Xsmf.urd
 rm "${PWD}"/idl/Xsmf.urd
 
 #Copy extension files and generate metadata
-cp -f "${PWD}"/src/yahoo.py "${PWD}"/SMF/
+cp -f "${PWD}"/src/smf.py "${PWD}"/SMF/
 cp -f "${PWD}"/src/ystockquote.py "${PWD}"/SMF/
 python "${PWD}"/src/generate_metainfo.py
 

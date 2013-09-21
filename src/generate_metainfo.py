@@ -57,7 +57,7 @@ manifest_xml = open(cur_dir + '/SMF/META-INF/manifest.xml', 'w')
 manifest_xml.write('<manifest:manifest>\n');
 add_manifest_entry(manifest_xml, 'uno-typelibrary;type=RDB', 'Xsmf.rdb')
 add_manifest_entry(manifest_xml, 'configuration-data', 'SMF.xcu')
-add_manifest_entry(manifest_xml, 'uno-component;type=Python', 'yahoo.py')
+add_manifest_entry(manifest_xml, 'uno-component;type=Python', 'smf.py')
 manifest_xml.write('</manifest:manifest> \n')
 
 manifest_xml.close
@@ -67,7 +67,7 @@ manifest_xml.close
 #
 
 # instance_id references the named UNO component instantiated by Python code (that is my understanding at least).
-instance_id = "com.smf.ticker.getinfo.python.YahooImpl"
+instance_id = "com.smf.ticker.getinfo.python.SmfImpl"
 # Name of the corresponding Excel add-in if you want to share documents across OOo and Excel.
 excel_addin_name = "SMF.xlam"
 
@@ -76,7 +76,7 @@ def define_function(xml_file, function_name, description, parameters):
 	xml_file.write('    <prop oor:name="DisplayName"><value xml:lang="en">' + function_name + '</value></prop>\n')
 	xml_file.write('    <prop oor:name="Description"><value xml:lang="en">' + description + '</value></prop>\n')
 	xml_file.write('    <prop oor:name="Category"><value>Add-In</value></prop>\n')
-	xml_file.write('    <prop oor:name="CompatibilityName"><value xml:lang="en">AutoAddIn.XYahoo.' + function_name + '</value></prop>\n')
+	xml_file.write('    <prop oor:name="CompatibilityName"><value xml:lang="en">AutoAddIn.XSmf.' + function_name + '</value></prop>\n')
 	xml_file.write('    <node oor:name="Parameters">\n')
 
 	for p, desc in parameters:

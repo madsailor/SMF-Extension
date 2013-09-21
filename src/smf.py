@@ -11,7 +11,7 @@
 #
 import uno
 import unohelper
-from com.smf.ticker.getinfo import XYahoo
+from com.smf.ticker.getinfo import XSmf
 import os, sys, inspect
 
 # Add current directory to path to import ystockquote module
@@ -20,7 +20,7 @@ if cmd_folder not in sys.path:
 	sys.path.insert(0, cmd_folder)
 import ystockquote
 
-class YahooImpl( unohelper.Base, XYahoo ):
+class SmfImpl( unohelper.Base, XSmf ):
 	def __init__( self, ctx ):
 		self.ctx = ctx
 
@@ -196,9 +196,9 @@ class YahooImpl( unohelper.Base, XYahoo ):
 
 
 def createInstance( ctx ):
-	return YahooImpl( ctx )
+	return SmfImpl( ctx )
 
 g_ImplementationHelper = unohelper.ImplementationHelper()
 g_ImplementationHelper.addImplementation( \
-	createInstance,"com.smf.ticker.getinfo.python.YahooImpl",
+	createInstance,"com.smf.ticker.getinfo.python.SmfImpl",
 		("com.sun.star.sheet.AddIn",),)
