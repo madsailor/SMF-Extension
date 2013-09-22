@@ -18,7 +18,7 @@ cur_dir = os.getcwd()
 addin_id = "com.smf.ticker.getinfo"
 addin_version = "1.00"
 addin_displayname = "Stock Market Function Extension."
-addin_publisher_link = "https://github.com"
+addin_publisher_link = "https://github.com/madsailor/SMF-Extension"
 addin_publisher_name = "Dave"
 
 # description.xml
@@ -100,6 +100,9 @@ smf_xml.write('<node oor:name="AddInFunctions">\n')
 
 define_function(smf_xml, \
     'getYahoo', 'Fetches Yahoo Financial Data.', \
+    [('a', 'The ticker symbol.'), ('b', 'The data code.')])
+define_function(smf_xml, \
+    'getMorningKey', 'Fetches Morningstar Key Ratios (11yr).', \
     [('a', 'The ticker symbol.'), ('b', 'The data code.')])
 
 smf_xml.write('</node>\n')

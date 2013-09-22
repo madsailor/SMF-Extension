@@ -19,6 +19,7 @@ cmd_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile( ins
 if cmd_folder not in sys.path:
     sys.path.insert(0, cmd_folder)
 import ystockquote
+import morningstar
 
 class SmfImpl( unohelper.Base, XSmf ):
     def __init__( self, ctx ):
@@ -194,6 +195,8 @@ class SmfImpl( unohelper.Base, XSmf ):
         elif datacode == 83 :
             return ystockquote.get_short_ratio(ticker)
 
+    def getMorningKey( self, ticker, datacode ):
+        return morningstar.fetch_keyratios(ticker, datacode)
 
 def createInstance( ctx ):
     return SmfImpl( ctx )

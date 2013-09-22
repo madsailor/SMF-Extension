@@ -3,20 +3,22 @@ Stock Market Data for LibreOffice Calc
 
 *A compiled and ready-to-install version of this extension is available at the [LibreOffice Extension Center](http://extensions.libreoffice.org/extension-center/smf-extension/).*
 
-Currently the SMF Extension supports retrieving data only from Yahoo Finance. I hope that providing the code openly will allow others who may have more time or skill to implement additional functionality.
+Currently the SMF Extension supports retrieving data from Morningstar and Yahoo Finance. I hope that providing the code openly will allow others who may have more time or skill to implement additional functionality.
 
 Usage
 ------------------------
-The SMF Extension adds a new function to Calc titled GETYAHOO.  This function can be used as follows:  
+The SMF Extension adds three new functions to Calc.  These functions can be used as follows:  
 
-    =GETYAHOO(ticker,datacode)  
+    =GETYAHOO(ticker,datacode)
+    =GETMORNINGKEY(ticker,datacode)
+    =GETMORNINGFIN(ticker,datacode)  
 
 Where *ticker* is the standard symbol ex. AAPL and *datacode* is the data element desired.
 
-The current datacode list:
+The Yahoo datacode list:
 -------------  
 
-*The full code list is demonstrated in the YahooExample.ods spreadsheet*  
+*The full Yahoo code list is demonstrated in the YahooExample.ods spreadsheet*  
 
 Code|Element||Code|Element||Code|Element
 ----|----|----|----|----|----|----|----
@@ -48,6 +50,10 @@ Code|Element||Code|Element||Code|Element
 26|50 Day Moving Average||54|Shares Owned||82|Price / EPS Estimate Next Year
 27|Last Trade (With Time)||55|Stock Exchange||83|Short Ratio
 28|200 Day Moving Average||56|Shares Outstanding|||
+
+The Morningstar datacode lists:
+-----------------------
+*Coming Soon!*  
 
 
 Additional sources to (hopefully) be implemented 
