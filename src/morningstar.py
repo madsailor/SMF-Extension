@@ -1,4 +1,14 @@
-import os
+#  morningstar.py - retrieve data from Morningstar for SMF Extension
+#
+#  Copyright (c) 2013 David Capron (drbluesman@yahoo.com)
+#
+#  license: GNU LGPL
+#
+#  This library is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU Lesser General Public
+#  License as published by the Free Software Foundation; either
+#  version 3 of the License, or (at your option) any later version.
+#
 import csv
 import urllib2
 import ystockquote
@@ -65,14 +75,6 @@ def fetch_keyratios(symbol, datacode):
                 return data
         counter += 1
     return 'No Data'
-
-def query_local(a,b,c):
-    cur_dir = os.getcwd()
-    csv_file = open(cur_dir + '/keyratios.csv','r')
-    csv_file.readline()
-    csv_file.readline()
-    csvio = csv.DictReader(csv_file)
-    return csvio
 
 def fetch_financials(symbol, datacode):
     exchange = find_exchange(symbol)

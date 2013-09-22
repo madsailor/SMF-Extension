@@ -32,7 +32,7 @@ desc_xml.write('<description xmlns="http://openoffice.org/extensions/description
 desc_xml.write('xmlns:d="http://openoffice.org/extensions/description/2006" \n')
 desc_xml.write('xmlns:xlink="http://www.w3.org/1999/xlink"> \n' + '\n')
 desc_xml.write('<dependencies> \n')
-desc_xml.write('	<OpenOffice.org-minimal-version value="2.4" d:name="OpenOffice.org 2.4"/> \n')
+desc_xml.write('    <OpenOffice.org-minimal-version value="2.4" d:name="OpenOffice.org 2.4"/> \n')
 desc_xml.write('</dependencies> \n')
 desc_xml.write('\n')
 desc_xml.write('<identifier value="' + addin_id + '" /> \n')
@@ -45,8 +45,8 @@ desc_xml.write('</description> \n')
 desc_xml.close
 
 def add_manifest_entry(xml_file, file_type, file_name):
-	xml_file.write('<manifest:file-entry manifest:media-type="application/vnd.sun.star.' + file_type + '" \n')
-	xml_file.write('	manifest:full-path="' + file_name + '"/> \n')
+    xml_file.write('<manifest:file-entry manifest:media-type="application/vnd.sun.star.' + file_type + '" \n')
+    xml_file.write('    manifest:full-path="' + file_name + '"/> \n')
 
 # manifest.xml
 #
@@ -72,23 +72,23 @@ instance_id = "com.smf.ticker.getinfo.python.SmfImpl"
 excel_addin_name = "SMF.xlam"
 
 def define_function(xml_file, function_name, description, parameters):
-	xml_file.write('  <node oor:name="' + function_name + '" oor:op="replace">\n')
-	xml_file.write('    <prop oor:name="DisplayName"><value xml:lang="en">' + function_name + '</value></prop>\n')
-	xml_file.write('    <prop oor:name="Description"><value xml:lang="en">' + description + '</value></prop>\n')
-	xml_file.write('    <prop oor:name="Category"><value>Add-In</value></prop>\n')
-	xml_file.write('    <prop oor:name="CompatibilityName"><value xml:lang="en">AutoAddIn.XSmf.' + function_name + '</value></prop>\n')
-	xml_file.write('    <node oor:name="Parameters">\n')
+    xml_file.write('  <node oor:name="' + function_name + '" oor:op="replace">\n')
+    xml_file.write('    <prop oor:name="DisplayName"><value xml:lang="en">' + function_name + '</value></prop>\n')
+    xml_file.write('    <prop oor:name="Description"><value xml:lang="en">' + description + '</value></prop>\n')
+    xml_file.write('    <prop oor:name="Category"><value>Add-In</value></prop>\n')
+    xml_file.write('    <prop oor:name="CompatibilityName"><value xml:lang="en">AutoAddIn.XSmf.' + function_name + '</value></prop>\n')
+    xml_file.write('    <node oor:name="Parameters">\n')
 
-	for p, desc in parameters:
-		# Optional parameters will have a displayname enclosed in square brackets.
-		p_name = p.strip("[]")		
-		xml_file.write('      <node oor:name="' + p_name + '" oor:op="replace">\n')
-		xml_file.write('        <prop oor:name="DisplayName"><value xml:lang="en">' + p_name + '</value></prop>\n')
-		xml_file.write('        <prop oor:name="Description"><value xml:lang="en">' + desc + '</value></prop>\n')
-		xml_file.write('      </node>\n')
+    for p, desc in parameters:
+        # Optional parameters will have a displayname enclosed in square brackets.
+        p_name = p.strip("[]")        
+        xml_file.write('      <node oor:name="' + p_name + '" oor:op="replace">\n')
+        xml_file.write('        <prop oor:name="DisplayName"><value xml:lang="en">' + p_name + '</value></prop>\n')
+        xml_file.write('        <prop oor:name="Description"><value xml:lang="en">' + desc + '</value></prop>\n')
+        xml_file.write('      </node>\n')
 
-	xml_file.write('    </node>\n')
-	xml_file.write('  </node>\n')
+    xml_file.write('    </node>\n')
+    xml_file.write('  </node>\n')
 
 smf_xml = open(cur_dir + '/SMF/SMF.xcu', 'w')
 
@@ -99,8 +99,8 @@ smf_xml.write('<node oor:name="' + instance_id + '" oor:op="replace">\n')
 smf_xml.write('<node oor:name="AddInFunctions">\n')
 
 define_function(smf_xml, \
-	'getYahoo', 'Fetches Yahoo Financial Data.', \
-	[('a', 'The ticker symbol.'), ('b', 'The data code.')])
+    'getYahoo', 'Fetches Yahoo Financial Data.', \
+    [('a', 'The ticker symbol.'), ('b', 'The data code.')])
 
 smf_xml.write('</node>\n')
 smf_xml.write('</node>\n')

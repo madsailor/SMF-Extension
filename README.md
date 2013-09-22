@@ -1,7 +1,7 @@
 Stock Market Data for LibreOffice Calc
 ================================
 
-*A compiled and ready-to-install version of this extension is available at the [LibreOffice Extension Center](http://extensions.libreoffice.org/extension-center).*
+*A compiled and ready-to-install version of this extension is available at the [LibreOffice Extension Center](http://extensions.libreoffice.org/extension-center/smf-extension/).*
 
 Currently the SMF Extension supports retrieving data only from Yahoo Finance. I hope that providing the code openly will allow others who may have more time or skill to implement additional functionality.
 
@@ -64,5 +64,5 @@ Use of the XBRL markup looks like a promising avenue for more recent (~5yr) fili
 
 About
 -------------------------
-The SMF Extension is powered by Corey Goldberg's [ystockquote](https://github.com/cgoldberg/ystockquote) and written in [Python](www.python.org).
+The Yahoo portion of the SMF Extension is powered by Corey Goldberg's [ystockquote](https://github.com/cgoldberg/ystockquote) and written in [Python](www.python.org).
 
