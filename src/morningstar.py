@@ -25,9 +25,7 @@ def query_morningstar(exchange, symbol, url_ending):
         url = 'http://financials.morningstar.com/ajax/ReportProcess4CSV.html?&t=%s:%s%s' % (exchange, symbol, url_ending)
         req = urllib2.Request(url)
         response = sniff_query(req)
-#todo : take fieldnames from discarded string rather than hardcode
-        dict_fieldnames = [symbol,"TTM", "2012", "2011", "2010", "2009", "2008"]
-        csvio = csv.DictReader(response)#, fieldnames=dict_fieldnames)
+        csvio = csv.DictReader(response)
         return csvio
      
 def sniff_query(req):
