@@ -197,6 +197,8 @@ class SmfImpl( unohelper.Base, XSmf ):
 
     def getMorningKey( self, ticker, datacode ):
         return morningstar.fetch_keyratios(ticker, datacode)
+    def getMorningFin( self, ticker, datacode ):
+        return morningstar.fetch_financials(ticker, datacode)
 
 def createInstance( ctx ):
     return SmfImpl( ctx )

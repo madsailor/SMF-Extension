@@ -13,7 +13,15 @@ The SMF Extension adds three new functions to Calc.  These functions can be used
     =GETMORNINGKEY(ticker,datacode)
     =GETMORNINGFIN(ticker,datacode)  
 
-Where *ticker* is the standard symbol ex. AAPL and *datacode* is the data element desired.
+Where *ticker* is the standard symbol ex. AAPL and *datacode* is the data element desired.  
+
+Quotes *MUST* be used when entering the ticker symbol directly into the function:  
+    =GETYAHOO("AAPL",1)  
+
+But are *not* needed when referencing another cell:  
+    =GETYAHOO(A1,1)  
+In the latter case the data in A1 should be AAPL *not* "AAPL"  
+
 
 The Yahoo datacode list:
 -------------  
@@ -63,7 +71,7 @@ Use of the XBRL markup looks like a promising avenue for more recent (~5yr) fili
 
 * For current and historical market data: The [NASDAQ Database](http://www.nasdaq.com/symbol/ge/historical)  
 
-* There are many other quality sites such as [ADVFN](http://www.advfn.com/), [Finviz](http://finviz.com/), and [Marketwatch](http://www.marketwatch.com/) that provide useful data.
+* There are many other quality sites such as [ADVFN](http://www.advfn.com/), [Finviz](http://finviz.com/), and [Marketwatch](http://www.marketwatch.com/) that provide useful data.  
 
 * For those with Excel coding experience there is a tremendous amount of functionality that may be ported from Randy Harmelink's [Excel SMF AddIn](http://groups.yahoo.com/neo/groups/smf_addin/info)
 

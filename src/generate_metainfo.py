@@ -104,6 +104,9 @@ define_function(smf_xml, \
 define_function(smf_xml, \
     'getMorningKey', 'Fetches Morningstar Key Ratios (11yr).', \
     [('a', 'The ticker symbol.'), ('b', 'The data code.')])
+define_function(smf_xml, \
+    'getMorningFin', 'Fetches Morningstar Financials (5yr).', \
+    [('a', 'The ticker symbol.'), ('b', 'The data code.')])
 
 smf_xml.write('</node>\n')
 smf_xml.write('</node>\n')
