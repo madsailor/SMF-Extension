@@ -53,7 +53,7 @@ def find_exchange(symbol):
         return 'Ticker Not Supported'
 
 def fetch_keyratios(symbol, datacode):
-    if datacode < 1 or datacode > 1115 :
+    if datacode < 1 or datacode > 990:
         return 'Invalid Datacode'
     #query remote and catch errors
     exchange = find_exchange(symbol)
@@ -61,28 +61,28 @@ def fetch_keyratios(symbol, datacode):
         return exchange
     keyratio_dict = query_morningstar(exchange, symbol,'&region=usa&culture=en-US&cur=USD&order=desc')
     if keyratio_dict == 'Check Connection' or keyratio_dict == 'Not Available':
-        return keyratio_dict
-    #iterate through returned dict line by line    
+        return keyratio_dict    
     counter = 0
-    skipped = 0            
+    skipped = 0
+    skip_lines = [15, 16, 26, 36, 37, 57, 58, 64, 65, 86, 91, 92]            
+    #iterate through returned dict line by line
     for line in keyratio_dict:
-        if counter == 15 or counter == 16 or counter == 27 or counter == 37 or counter == 38 or counter == 60 or counter == 68 or counter == 91 or counter == 97:
-            counter += 1
-            skipped += 1
-        else:
-            for val in range(1, len(line)):
-                #match year values to datacodes
-                if datacode == val:
-                    return keyratio_dict.fieldnames[val]
-                #match data values to datacodes
-                if (datacode - (counter * len(line) - skipped * len(line)) +(counter+ 1)) - len(line) == val:
-                    data = line[keyratio_dict.fieldnames[val]]
-                    return data
+        for item in skip_lines:
+            if counter == item:
+                skipped += 1
+        for val in range(1, len(line)):
+            #match year values to datacodes
+            if datacode == val:
+                return keyratio_dict.fieldnames[val]
+            #match data values to datacodes
+            if (datacode - (counter - skipped) * (len(line)-1)) - (len(line)-1) == val:
+                data = line[keyratio_dict.fieldnames[val]]
+                return data
         counter += 1
     return 'No Data'
 
 def fetch_financials(symbol, datacode):
-    if datacode < 1 or datacode > 120 :
+    if datacode < 1 or datacode > 126 :
         return 'Invalid Datacode'
     #query remote and catch errors
     exchange = find_exchange(symbol)
@@ -104,8 +104,7 @@ def fetch_financials(symbol, datacode):
                 if datacode == val:
                     return financial_dict.fieldnames[val]
                 #match data values to datacodes
-#todo: doesn't read first line 'Revenue'
-                if datacode - (counter - skipped) * (len(line)-1) == val:
+                if (datacode - (counter - skipped) * (len(line)-1)) - (len(line)-1) == val:
                     data = line[financial_dict.fieldnames[val]]
                     return data
         counter += 1
