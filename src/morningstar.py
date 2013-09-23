@@ -11,7 +11,7 @@
 #
 import csv
 import urllib2
-import ystockquote
+import yahoo
 
 def query_morningstar(exchange, symbol, url_ending): 
     if url_ending == '&region=usa&culture=en-US&cur=USD&order=desc':
@@ -39,7 +39,7 @@ def sniff_query(req):
     return response
 
 def find_exchange(symbol):
-    exchange = ystockquote.get_stock_exchange(symbol)
+    exchange = yahoo.fetch_data(symbol, 55)
     if exchange == '"AMEX"':
         exchange = 'XASE'
         return exchange

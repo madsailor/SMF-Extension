@@ -16,7 +16,7 @@ rm "${PWD}"/idl/Xsmf.urd
 #Copy extension files and generate metadata
 cp -f "${PWD}"/src/smf.py "${PWD}"/SMF/
 cp -f "${PWD}"/src/morningstar.py "${PWD}"/SMF/
-cp -f "${PWD}"/src/ystockquote.py "${PWD}"/SMF/
+cp -f "${PWD}"/src/yahoo.py "${PWD}"/SMF/
 python "${PWD}"/src/generate_metainfo.py
 
 #Package into oxt file
