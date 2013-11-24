@@ -52,34 +52,43 @@ def find_exchange(symbol):
     else:
         return 'Ticker Not Supported'
 
-def fetch_keyratios(symbol, datacode):
+def fetch_keyratios(self, symbol, datacode):
     if datacode < 1 or datacode > 990:
         return 'Invalid Datacode'
-    #query remote and catch errors
-    exchange = find_exchange(symbol)
-    if exchange == 'Ticker Not Supported':
-        return exchange
-    keyratio_dict = query_morningstar(exchange, symbol,'&region=usa&culture=en-US&cur=USD&order=desc')
-    if keyratio_dict == 'Check Connection' or keyratio_dict == 'Not Available':
-        return keyratio_dict    
+    #check if we already have the data we need
+    if self.flag[0] == 'Check Connection' or self.flag[0] == 'Not Available' or self.flag[1] != symbol:
+        #query remote and check for errors
+        exchange = find_exchange(symbol)
+        if exchange == 'Ticker Not Supported':
+            self.flag[1] = ''
+            return exchange
+        new_dict = query_morningstar(exchange, symbol,'&region=usa&culture=en-US&cur=USD&order=desc')
+        if new_dict == 'Check Connection' or new_dict == 'Not Available':
+            self.flag[1] = ''
+            return new_dict
+        else:
+            self.flag[0] = ''
+            self.flag[1] = symbol
+            self.csv_dict = new_dict         
     counter = 0
     skipped = 0
     skip_lines = [15, 16, 26, 36, 37, 57, 58, 64, 65, 86, 91, 92]            
-    #iterate through returned dict line by line
-    for line in keyratio_dict:
+    #iterate through dict line by line
+    for line in self.csv_dict:
         for item in skip_lines:
             if counter == item:
                 skipped += 1
         for val in range(1, len(line)):
             #match year values to datacodes
             if datacode == val:
-                return keyratio_dict.fieldnames[val]
+                return self.csv_dict.fieldnames[val]
             #match data values to datacodes
             if (datacode - (counter - skipped) * (len(line)-1)) - (len(line)-1) == val:
-                data = line[keyratio_dict.fieldnames[val]]
+                data = line[self.csv_dict.fieldnames[val]]
                 return data
         counter += 1
     return 'No Data'
+
 
 def fetch_financials(symbol, datacode):
     if datacode < 1 or datacode > 126 :

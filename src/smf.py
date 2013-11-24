@@ -22,16 +22,21 @@ import yahoo
 import morningstar
 
 class SmfImpl( unohelper.Base, XSmf ):
+    csv_dict = []
+    flag = ['Not Available', '']
+    
     def __init__( self, ctx ):
         self.ctx = ctx
+        self.csv_dict = []
+        self.flag = ['Not Available', '']
 
     def getYahoo( self, ticker, datacode ):
-        data_element = yahoo.fetch_data(ticker, datacode)
-        return data_element
+        return yahoo.fetch_data(ticker, datacode)
 
-    def getMorningKey( self, ticker, datacode ):
-        return morningstar.fetch_keyratios(ticker, datacode)
-    def getMorningFin( self, ticker, datacode ):
+    def getMorningKey( self, ticker, datacode):
+        return morningstar.fetch_keyratios(self, ticker, datacode)
+    
+    def getMorningFin( self, ticker, datacode):
         return morningstar.fetch_financials(ticker, datacode)
 
 def createInstance( ctx ):
