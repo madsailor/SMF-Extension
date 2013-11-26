@@ -9,37 +9,31 @@
 #  License as published by the Free Software Foundation; either
 #  version 3 of the License, or (at your option) any later version.
 #
-import csv
-import urllib2
+import csv, urllib2
 import yahoo
 
-def query_morningstar(exchange, symbol, url_ending): 
+def query_morningstar(self, exchange, symbol, url_ending): 
     if url_ending == '&region=usa&culture=en-US&cur=USD&order=desc':
         url = 'http://financials.morningstar.com/ajax/exportKR2CSV.html?&callback=?&t=%s:%s%s' % (exchange, symbol, url_ending)
-        req = urllib2.Request(url)
-        response = sniff_query(req)
-        response.readline()
-        csvio = csv.DictReader(response)
-        return csvio
     else:
         url = 'http://financials.morningstar.com/ajax/ReportProcess4CSV.html?&t=%s:%s%s' % (exchange, symbol, url_ending)
-        req = urllib2.Request(url)
-        response = sniff_query(req)
-        csvio = csv.DictReader(response)
-        return csvio
-     
-def sniff_query(req):
+    req = urllib2.Request(url)
     try:
         response = urllib2.urlopen(req)
-    except urllib2.URLError:
-        return 'Check Connection'
+    except urllib2.URLError as e:
+        self.flag[0] = '1'
+        if hasattr(e, 'reason'):
+            return e.reason
+        elif hasattr(e,'code'):
+            return 'Error', e.code
     sniff = response.readline()
     if str(sniff) == '':
         return 'Not Available'
-    return response
+    response.readline()
+    return csv.reader(response)
 
-def find_exchange(symbol):
-    exchange = yahoo.fetch_data(symbol, 55)
+def find_exchange(ticker):
+    exchange = yahoo.fetch_data(ticker, 55)
     if exchange == '"AMEX"':
         exchange = 'XASE'
         return exchange
@@ -50,46 +44,34 @@ def find_exchange(symbol):
         exchange = 'XNYS'
         return exchange
     else:
-        return 'Ticker Not Supported'
+        return exchange
 
-def fetch_keyratios(self, symbol, datacode):
+def fetch_keyratios(self, ticker, datacode):
     if datacode < 1 or datacode > 990:
         return 'Invalid Datacode'
-    #check if we already have the data we need
-    if self.flag[0] == 'Check Connection' or self.flag[0] == 'Not Available' or self.flag[1] != symbol:
-        #query remote and check for errors
-        exchange = find_exchange(symbol)
-        if exchange == 'Ticker Not Supported':
-            self.flag[1] = ''
+    #check whether flags indicate that we already have the data we need
+    if self.flag[0] == '1' or self.flag[1] != ticker:
+        #query yahoo for exchange and check for errors
+        exchange = find_exchange(ticker)
+        if exchange not in ['XNYS', 'XASE', 'XNAS', '']:
             return exchange
-        new_dict = query_morningstar(exchange, symbol,'&region=usa&culture=en-US&cur=USD&order=desc')
-        if new_dict == 'Check Connection' or new_dict == 'Not Available':
-            self.flag[1] = ''
-            return new_dict
+        #query morningstar for key financials and check for errors
+        self.csv_reader = query_morningstar(self, exchange, ticker,'&region=usa&culture=en-US&cur=USD&order=desc')
+        if self.flag[0] == '1':
+            return self.csv_reader
+        #Set flags and read data into memory upon successful query
         else:
-            self.flag[0] = ''
-            self.flag[1] = symbol
-            self.csv_dict = new_dict         
-    counter = 0
-    skipped = 0
-    skip_lines = [15, 16, 26, 36, 37, 57, 58, 64, 65, 86, 91, 92]            
-    #iterate through dict line by line
-    for line in self.csv_dict:
-        for item in skip_lines:
-            if counter == item:
-                skipped += 1
-        for val in range(1, len(line)):
-            #match year values to datacodes
-            if datacode == val:
-                return self.csv_dict.fieldnames[val]
-            #match data values to datacodes
-            if (datacode - (counter - skipped) * (len(line)-1)) - (len(line)-1) == val:
-                data = line[self.csv_dict.fieldnames[val]]
-                return data
-        counter += 1
-    return 'No Data'
+            self.flag[0] = '0'
+            self.flag[1] = ticker
+            self.data = [row for row in self.csv_reader]
+    return sort_keyratios(self, datacode)
 
+def sort_keyratios(self, datacode):
+    # convert datacode to row, column and return data in that position of list
+    row, col = divmod(int(datacode), 12)
+    return self.data[row][col]
 
+#TODO: Update getMorningFin to recycle local data like getMorningKey
 def fetch_financials(symbol, datacode):
     if datacode < 1 or datacode > 126 :
         return 'Invalid Datacode'

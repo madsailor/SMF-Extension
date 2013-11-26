@@ -21,14 +21,12 @@ if cmd_folder not in sys.path:
 import yahoo
 import morningstar
 
-class SmfImpl( unohelper.Base, XSmf ):
-    csv_dict = []
-    flag = ['Not Available', '']
+class SmfImpl(unohelper.Base, XSmf ):
     
     def __init__( self, ctx ):
         self.ctx = ctx
-        self.csv_dict = []
-        self.flag = ['Not Available', '']
+        self.csv_reader = []
+        self.flag = ['0', '']
 
     def getYahoo( self, ticker, datacode ):
         return yahoo.fetch_data(ticker, datacode)
@@ -37,7 +35,7 @@ class SmfImpl( unohelper.Base, XSmf ):
         return morningstar.fetch_keyratios(self, ticker, datacode)
     
     def getMorningFin( self, ticker, datacode):
-        return morningstar.fetch_financials(ticker, datacode)
+        return morningstar.fetch_financials(self, ticker, datacode)
 
 def createInstance( ctx ):
     return SmfImpl( ctx )
