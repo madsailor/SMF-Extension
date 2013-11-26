@@ -27,6 +27,8 @@ class SmfImpl(unohelper.Base, XSmf ):
         self.ctx = ctx
         self.keyratio_reader = []
         self.keyratio_flag = ['0', '']
+        self.financial_reader = []
+        self.financial_flag = ['0', '']
 
     def getYahoo( self, ticker, datacode ):
         return yahoo.fetch_data(ticker, datacode)

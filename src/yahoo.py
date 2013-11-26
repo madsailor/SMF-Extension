@@ -12,7 +12,7 @@
 #  Inspired by ystockquote by Corey Goldberg (cgoldberg@gmail.com)
 #
 import urllib2
-
+##TODO: Setup to query csv of all yahoo vales, and run in memory like getMorningKey
 def fetch_data(ticker, datacode):
     if datacode < 1 or datacode > 83 :
         return 'Invalid Datacode'

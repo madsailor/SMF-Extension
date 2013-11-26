@@ -49,8 +49,9 @@ def query_morningstar(self, exchange, symbol, url_ending):
     sniff = response.readline()
     if str(sniff) == '':
         return 'Not Available'
-    #discard first line
-    response.readline()
+    #discard first line if called by fetch_keyratios()
+    if url_ending == '&region=usa&culture=en-US&cur=USD&order=desc':
+        response.readline()
     return csv.reader(response)
 
 def fetch_keyratios(self, ticker, datacode):
@@ -74,10 +75,10 @@ def fetch_keyratios(self, ticker, datacode):
             self.keyratio_flag[1] = ticker
             self.keyratio_data = [row for row in self.keyratio_reader]
     #check for existing datacode -> value map, if none exists then create it
-    if not hasattr(self, 'datacode_map'):
-        self.datacode_map = keyratio_datacode_map()
+    if not hasattr(self, 'key_datacode_map'):
+        self.key_datacode_map = keyratio_datacode_map()
     #lookup and return value from map
-    row, col = self.datacode_map[datacode]
+    row, col = self.key_datacode_map[datacode]
     return self.keyratio_data[row][col]
 
 def keyratio_datacode_map():
@@ -98,35 +99,46 @@ def keyratio_datacode_map():
     # create and return the dictionary
     return {datacode: find_row_col(datacode) for datacode in xrange(1, 947)}
 
-
 #TODO: Update getMorningFin to recycle local data like getMorningKey
-def fetch_financials(symbol, datacode):
+def fetch_financials(self, ticker, datacode):
     """Get morningstar financial data and return desired element to user """
-    if datacode < 1 or datacode > 126 :
+    if datacode < 1 or datacode > 120 :
         return 'Invalid Datacode'
-    #query remote and catch errors
-    exchange = find_exchange(symbol)
-    if exchange == 'Ticker Not Supported':
-        return exchange
-    financial_dict = query_morningstar(exchange, symbol,'&region=usa&culture=en-US&cur=USD&reportType=is&period=12&dataType=A&order=desc&columnYear=5&rounding=3&view=raw&r=113199&denominatorView=raw&number=3')
-    if financial_dict == 'Check Connection' or financial_dict == 'Not Available':
-        return financial_dict     
-
-    counter = 0
-    skipped = 0
-    #iterate through returned dict line by line
-    for line in financial_dict:
-        #skip lines with no data
-        if counter == 3 or counter == 16 or counter == 19:
-            skipped += 1
+    #check whether flags indicate that we already have the data we need
+    if self.financial_flag[0] == '1' or self.financial_flag[1] != ticker:
+        #query yahoo for exchange and check for errors
+        exchange = find_exchange(ticker)
+        if exchange not in ['XNYS', 'XASE', 'XNAS', '']:
+            return exchange
+        #query morningstar for financials and check for errors
+        self.financial_reader = query_morningstar(self, exchange, ticker,'&region=usa&culture=en-US&cur=USD&reportType=is&period=12&dataType=A&order=desc&columnYear=5&rounding=3&view=raw&r=113199&denominatorView=raw&number=3')
+        if self.financial_flag[0] == '1':
+            return self.financial_reader
+        #Set flags and read data into memory upon successful query
         else:
-            for val in range(1, len(line)):
-                #match year values to datacodes
-                if datacode == val:
-                    return financial_dict.fieldnames[val]
-                #match data values to datacodes
-                if (datacode - (counter - skipped) * (len(line)-1)) - (len(line)-1) == val:
-                    data = line[financial_dict.fieldnames[val]]
-                    return data
-        counter += 1
-    return 'No Data'
+            self.financial_flag[0] = '0'
+            self.financial_flag[1] = ticker
+            self.financial_data = [row for row in self.financial_reader]
+    #check for existing datacode -> value map, if none exists then create it
+    if not hasattr(self, 'fin_datacode_map'):
+        self.fin_datacode_map = financial_datacode_map()
+    #lookup and return value from map
+    row, col = self.fin_datacode_map[datacode]
+    return self.financial_data[row][col]
+    
+def financial_datacode_map():
+    """ Create dictionary mapping datacodes to (row, col) in data. """
+    # define rows that have no useful data
+    skip_list = {4, 16, 19}
+    def find_row_col(datacode):
+        skipped = 0
+        # match datacode to row, column
+        for row in xrange(0, 23):
+            if row in skip_list:
+                skipped += 6
+                continue
+            for col in xrange(0, 7):
+                if datacode == col + (6*row)-skipped:
+                    return row, col
+    # create and return the dictionary
+    return {datacode: find_row_col(datacode) for datacode in xrange(1, 121)}   
