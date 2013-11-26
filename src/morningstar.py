@@ -67,9 +67,17 @@ def fetch_keyratios(self, ticker, datacode):
     return sort_keyratios(self, datacode)
 
 def sort_keyratios(self, datacode):
-    # convert datacode to row, column and return data in that position of list
-    row, col = divmod(int(datacode), 12)
-    return self.data[row][col]
+    #define rows that have no useful data   
+    skip_list = [16,17,18,28,29,38,39,40,41,46,51,56,61,62,63,69,70,71,92,93,98,99,100]
+    skipped = 0
+    # match datacode to row, column and return data in that position of list
+    for row in range(0,109):
+        if row in skip_list:
+            skipped+=11
+            continue
+        for col in range(0,12):
+            if datacode == col+(11*row)-skipped:
+                return self.data[row][col]
 
 #TODO: Update getMorningFin to recycle local data like getMorningKey
 def fetch_financials(symbol, datacode):
