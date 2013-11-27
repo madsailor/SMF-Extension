@@ -12,19 +12,20 @@
 import csv, urllib2
 import yahoo
 
-def find_exchange(ticker):
+def find_exchange(self, ticker):
     """Determine exchange ticker is traded on so we can query morningstar"""
     # query yahoo to determine which exchange our ticker is traded on
-    exchange = yahoo.fetch_data(ticker, 55)
-    if exchange == '"AMEX"':
+    exchange = yahoo.fetch_data(self, ticker, 58)
+    if exchange == 'AMEX':
         exchange = 'XASE'
         return exchange
-    elif exchange =='"NasdaqNM"':
+    elif exchange =='NasdaqNM':
         exchange = 'XNAS'
         return exchange
-    elif exchange =='"NYSE"':
+    elif exchange =='NYSE':
         exchange = 'XNYS'
         return exchange
+    #catch errors
     else:
         return exchange
     
@@ -40,7 +41,8 @@ def query_morningstar(self, exchange, symbol, url_ending):
     try:
         response = urllib2.urlopen(req)
     except urllib2.URLError as e:
-        self.flag[0] = '1'
+        self.keyratio_flag[0] = '1'
+        self.financial_flag[0] = '1'
         if hasattr(e, 'reason'):
             return e.reason
         elif hasattr(e,'code'):
@@ -62,8 +64,8 @@ def fetch_keyratios(self, ticker, datacode):
     #check whether flags indicate that we already have the data we need
     if self.keyratio_flag[0] == '1' or self.keyratio_flag[1] != ticker:
         #query yahoo for exchange and check for errors
-        exchange = find_exchange(ticker)
-        if exchange not in ['XNYS', 'XASE', 'XNAS', '']:
+        exchange = find_exchange(self, ticker)
+        if exchange not in ['XNYS', 'XASE', 'XNAS']:
             return exchange
         #query morningstar for key ratios and check for errors
         self.keyratio_reader = query_morningstar(self, exchange, ticker,'&region=usa&culture=en-US&cur=USD&order=desc')
@@ -107,8 +109,8 @@ def fetch_financials(self, ticker, datacode):
     #check whether flags indicate that we already have the data we need
     if self.financial_flag[0] == '1' or self.financial_flag[1] != ticker:
         #query yahoo for exchange and check for errors
-        exchange = find_exchange(ticker)
-        if exchange not in ['XNYS', 'XASE', 'XNAS', '']:
+        exchange = find_exchange(self,ticker)
+        if exchange not in ['XNYS', 'XASE', 'XNAS']:
             return exchange
         #query morningstar for financials and check for errors
         self.financial_reader = query_morningstar(self, exchange, ticker,'&region=usa&culture=en-US&cur=USD&reportType=is&period=12&dataType=A&order=desc&columnYear=5&rounding=3&view=raw&r=113199&denominatorView=raw&number=3')

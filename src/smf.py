@@ -25,13 +25,12 @@ class SmfImpl(unohelper.Base, XSmf ):
     
     def __init__( self, ctx ):
         self.ctx = ctx
-        self.keyratio_reader = []
+        self.yahoo_flag = ['0', '']
         self.keyratio_flag = ['0', '']
-        self.financial_reader = []
         self.financial_flag = ['0', '']
-
+    #Following functions are called and mapped by pyuno/LO through the Xsmf.rdb file
     def getYahoo( self, ticker, datacode ):
-        return yahoo.fetch_data(ticker, datacode)
+        return yahoo.fetch_data(self, ticker, datacode)
 
     def getMorningKey( self, ticker, datacode):
         return morningstar.fetch_keyratios(self, ticker, datacode)
