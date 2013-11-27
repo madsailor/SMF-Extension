@@ -15,7 +15,7 @@ import yahoo
 def find_exchange(self, ticker):
     """Determine exchange ticker is traded on so we can query morningstar"""
     # query yahoo to determine which exchange our ticker is traded on
-    exchange = yahoo.fetch_data(self, ticker, 58)
+    exchange = yahoo.fetch_data(self, ticker, 54)
     if exchange == 'AMEX':
         exchange = 'XASE'
         return exchange
