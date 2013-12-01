@@ -33,9 +33,11 @@ def query_morningstar(self, exchange, symbol, url_ending):
     """Query morningstar for the data we want"""
     #determine whether we want key ratios or financial & query morningstar  
     if url_ending == '&region=usa&culture=en-US&cur=USD&order=desc':
-        url = 'http://financials.morningstar.com/ajax/exportKR2CSV.html?&callback=?&t=%s:%s%s' % (exchange, symbol, url_ending)
+        url = ('http://financials.morningstar.com/ajax/exportKR2CSV.html?'
+               '&callback=?&t=%s:%s%s' % (exchange, symbol, url_ending))
     else:
-        url = 'http://financials.morningstar.com/ajax/ReportProcess4CSV.html?&t=%s:%s%s' % (exchange, symbol, url_ending)
+        url = ('http://financials.morningstar.com/ajax/ReportProcess4CSV.html'
+               '?&t=%s:%s%s' % (exchange, symbol, url_ending))
     req = urllib2.Request(url)
     #catch errors
     try:
@@ -68,7 +70,9 @@ def fetch_keyratios(self, ticker, datacode):
         if exchange not in ['XNYS', 'XASE', 'XNAS']:
             return exchange
         #query morningstar for key ratios and check for errors
-        self.keyratio_reader = query_morningstar(self, exchange, ticker,'&region=usa&culture=en-US&cur=USD&order=desc')
+        self.keyratio_reader = query_morningstar(self, exchange, ticker,
+                                                 ('&region=usa&culture=en-US'
+                                                  '&cur=USD&order=desc'))
         if self.keyratio_flag[0] == '1':
             return self.keyratio_reader
         #Set flags and read data into memory upon successful query
@@ -113,7 +117,15 @@ def fetch_financials(self, ticker, datacode):
         if exchange not in ['XNYS', 'XASE', 'XNAS']:
             return exchange
         #query morningstar for financials and check for errors
-        self.financial_reader = query_morningstar(self, exchange, ticker,'&region=usa&culture=en-US&cur=USD&reportType=is&period=12&dataType=A&order=desc&columnYear=5&rounding=3&view=raw&r=113199&denominatorView=raw&number=3')
+        self.financial_reader = query_morningstar(self, exchange, ticker,
+                                                  ('&region=usa&culture=en-US'
+                                                   '&cur=USD&reportType=is'
+                                                   '&period=12&dataType=A'
+                                                   '&order=desc&columnYear=5'
+                                                   '&rounding=3&view=raw'
+                                                   '&r=113199'
+                                                   '&denominatorView=raw'
+                                                   '&number=3'))
         if self.financial_flag[0] == '1':
             return self.financial_reader
         #Set flags and read data into memory upon successful query
