@@ -1,4 +1,4 @@
-#  smf.py - class to implement new functions for SMF Extension
+#  smf.py - Pyuno/LO bridge to implement new functions for LibreOffice Calc
 #
 #  Copyright (c) 2013 David Capron (drbluesman@yahoo.com)
 #
@@ -15,7 +15,9 @@ from com.smf.ticker.getinfo import XSmf
 import os, sys, inspect
 
 # Add current directory to path to import yahoo and morningstar modules
-cmd_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile( inspect.currentframe() ))[0]))
+cmd_folder = os.path.realpath(os.path.abspath
+                              (os.path.split(inspect.getfile
+                                             ( inspect.currentframe() ))[0]))
 if cmd_folder not in sys.path:
     sys.path.insert(0, cmd_folder)
 import yahoo
@@ -28,7 +30,7 @@ class SmfImpl(unohelper.Base, XSmf ):
         self.yahoo_flag = ['0', '']
         self.keyratio_flag = ['0', '']
         self.financial_flag = ['0', '']
-    #Following functions are called and mapped by pyuno/LO through the Xsmf.rdb file
+    #Following functions are called and mapped by LO through the Xsmf.rdb file
     def getYahoo( self, ticker, datacode ):
         return yahoo.fetch_data(self, ticker, datacode)
 
