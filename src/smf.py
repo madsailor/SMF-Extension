@@ -9,10 +9,12 @@
 #  License as published by the Free Software Foundation; either
 #  version 3 of the License, or (at your option) any later version.
 #
+import os
+import sys
+import inspect
 import uno
 import unohelper
 from com.smf.ticker.getinfo import XSmf
-import os, sys, inspect
 
 # Add current directory to path to import yahoo and morningstar modules
 cmd_folder = os.path.realpath(os.path.abspath
@@ -30,7 +32,7 @@ class SmfImpl(unohelper.Base, XSmf ):
         self.yahoo_flag = ['0', '']
         self.keyratio_flag = ['0', '']
         self.financial_flag = ['0', '']
-    #Following functions are called and mapped by LO through the Xsmf.rdb file
+    #Following functions are called and mapped by LO through the Xsmf.rdb file.
     def getYahoo( self, ticker, datacode ):
         return yahoo.fetch_data(self, ticker, datacode)
 

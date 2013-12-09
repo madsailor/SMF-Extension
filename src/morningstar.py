@@ -1,4 +1,4 @@
-#  morningstar.py - retrieve data from Morningstar for SMF Extension
+#  morningstar.py - Retrieve data from Morningstar for the SMF Extension
 #
 #  Copyright (c) 2013 David Capron (drbluesman@yahoo.com)
 #
@@ -9,12 +9,13 @@
 #  License as published by the Free Software Foundation; either
 #  version 3 of the License, or (at your option) any later version.
 #
-import csv, urllib2
+import csv
+import urllib2
 import yahoo
 
 def find_exchange(self, ticker):
-    """Determine exchange ticker is traded on so we can query morningstar"""
-    # query yahoo to determine which exchange our ticker is traded on
+    """Determine exchange ticker is traded on so we can query Morningstar"""
+    #Query Yahoo to determine which exchange our ticker is traded on.
     exchange = yahoo.fetch_data(self, ticker, 54)
     if exchange == 'AMEX':
         exchange = 'XASE'
@@ -25,13 +26,13 @@ def find_exchange(self, ticker):
     elif exchange =='NYSE':
         exchange = 'XNYS'
         return exchange
-    #catch errors
+    #Catch errors.
     else:
         return exchange
     
 def query_morningstar(self, exchange, symbol, url_ending):
-    """Query morningstar for the data we want"""
-    #determine whether we want key ratios or financial & query Morningstar  
+    """Query Morningstar for the data we want"""
+    #Determine whether we want key ratios or financials & query Morningstar.  
     if url_ending == '&region=usa&culture=en-US&cur=USD&order=desc':
         url = ('http://financials.morningstar.com/ajax/exportKR2CSV.html?'
                '&callback=?&t=%s:%s%s' % (exchange, symbol, url_ending))
@@ -39,7 +40,7 @@ def query_morningstar(self, exchange, symbol, url_ending):
         url = ('http://financials.morningstar.com/ajax/ReportProcess4CSV.html?'
                '&t=%s:%s%s' % (exchange, symbol, url_ending))
     req = urllib2.Request(url)
-    #catch errors
+    #Catch errors.
     try:
         response = urllib2.urlopen(req)
     except urllib2.URLError as e:
@@ -49,54 +50,54 @@ def query_morningstar(self, exchange, symbol, url_ending):
             return e.reason
         elif hasattr(e,'code'):
             return 'Error', e.code
-    #verify response csv isn't empty
+    #Verify response csv isn't empty.
     sniff = response.readline()
     if str(sniff) == '':
         self.keyratio_flag[0] = '1'
         self.financial_flag[0] = '1'
         return 'Not Available'
-    #discard first line if called by fetch_keyratios()
+    #Discard first line if called by fetch_keyratios().
     if url_ending == '&region=usa&culture=en-US&cur=USD&order=desc':
         response.readline()
     return csv.reader(response)
 
 def fetch_keyratios(self, ticker, datacode):
-    """Get morningstar key ratio data and return desired element to user """
-    #check for sane user input for datacode
+    """Get Morningstar key ratio data and return desired element to user"""
+    #Check for sane user input for datacode.
     if datacode < 1 or datacode > 946:
         return 'Invalid Datacode'
-    #check whether flags indicate that we already have the data we need
+    #Check whether flags indicate that we already have the data we need.
     if self.keyratio_flag[0] == '1' or self.keyratio_flag[1] != ticker:
-        #query yahoo for exchange and check for errors
+        #Query Yahoo for exchange and check for errors.
         exchange = find_exchange(self, ticker)
         if exchange not in ['XNYS', 'XASE', 'XNAS']:
             return exchange
-        #query morningstar for key ratios and check for errors
+        #Query Morningstar for key ratios and check for errors.
         url_ending = '&region=usa&culture=en-US&cur=USD&order=desc'
         self.keyratio_reader = query_morningstar(self, exchange, ticker, 
                                                  url_ending)
         if self.keyratio_flag[0] == '1':
             return self.keyratio_reader
-        #Set flags and read data into memory upon successful query
+        #Set flags and read data into memory upon successful query.
         else:
             self.keyratio_flag[0] = '0'
             self.keyratio_flag[1] = ticker
             self.keyratio_data = [row for row in self.keyratio_reader]
-    #check for existing datacode -> value map, if none exists then create it
+    #Check for existing datacode -> value map, if none exists then create it.
     if not hasattr(self, 'key_datacode_map'):
         self.key_datacode_map = keyratio_datacode_map()
-    #lookup and return value from map
+    #Lookup and return value from map.
     row, col = self.key_datacode_map[datacode]
     return self.keyratio_data[row][col]
 
 def keyratio_datacode_map():
-    """ Create dictionary mapping datacodes to (row, col) in data. """
-    # define rows that have no useful data
+    """Create a dictionary mapping datacodes to (row, col) of data."""
+    #Define rows that have no useful data.
     skip_list = {16, 17, 18, 28, 29, 38, 39, 40, 41, 46, 51, 56, 61, 62, 63, 69,
                  70, 71, 92, 93, 98, 99, 100}
     def find_row_col(datacode):
         skipped = 0
-        # match datacode to row, column
+        #Match datacode to row, column.
         for row in xrange(0, 109):
             if row in skip_list:
                 skipped += 11
@@ -104,36 +105,35 @@ def keyratio_datacode_map():
             for col in xrange(0, 12):
                 if datacode == col + (11*row) - skipped:
                     return row, col
-    # create and return the dictionary
+    #Create and return the dictionary.
     return {datacode: find_row_col(datacode) for datacode in xrange(1, 947)}
 
-#TODO: Update getMorningFin to recycle local data like getMorningKey
 def fetch_financials(self, ticker, datacode):
-    """Get morningstar financial data and return desired element to user """
+    """Get Morningstar financial data and return desired element to user"""
     if datacode < 1 or datacode > 162 :
         return 'Invalid Datacode'
-    #check whether flags indicate that we already have the data we need
+    #Check whether flags indicate that we already have the data we need.
     if self.financial_flag[0] == '1' or self.financial_flag[1] != ticker:
-        #query yahoo for exchange and check for errors
+        #Query Yahoo for exchange and check for errors.
         exchange = find_exchange(self,ticker)
         if exchange not in ['XNYS', 'XASE', 'XNAS']:
             return exchange
-        #query morningstar for financials and check for errors
+        #Query Morningstar for financials and check for errors.
         url_ending = ('&region=usa&culture=en-US&cur=USD&reportType=is'
                       '&period=12&dataType=A&order=desc&columnYear=5&rounding=3'
                       '&view=raw&r=113199&denominatorView=raw&number=3')
         financial_reader = query_morningstar(self, exchange, ticker, url_ending)
         if self.financial_flag[0] == '1':
             return financial_reader
-        #Set flags and read data into memory upon successful query
+        #Set flags and read data into memory upon successful query.
         else:
             self.financial_flag[0] = '0'
             self.financial_flag[1] = ticker
             financial_data_setup(self, financial_reader)
-    #check for existing datacode -> value map, if none exists then create it
+    #Check for existing datacode -> value map, if none exists then create it.
     if not hasattr(self, 'fin_datacode_map'):
         self.fin_datacode_map = financial_datacode_map()
-    #lookup and return value from map
+    #Lookup and return value from map.
     row, col = self.fin_datacode_map[datacode]
     return self.financial_data[row][col]
 
@@ -159,14 +159,16 @@ def financial_data_setup(self, financial_reader):
     ttm_count = 0
     for d in header_list:                
         for i in raw_financial_data:
+            #Handle corner case of first row.
             try:
                 if i[1] == 'TTM' and ttm_count == 0:
                     self.financial_data.append(i)
                     ttm_count = 1
                     continue
-            #Skip appending Morningstar categories ie: 'Costs and expenses'
+            #Skip appending Morningstar categories ie: 'Costs and expenses'.
             except:
                 continue   
+            #Append our data and placeholder rows
             if i[0] == d:
                 self.financial_data.append(i)
             elif d not in rfd_header:
@@ -175,7 +177,7 @@ def financial_data_setup(self, financial_reader):
                                             'N/A', 'N/A','N/A'])
     
 def financial_datacode_map():
-    """ Create dictionary mapping datacodes to (row, col) in data. """
+    """Create dictionary mapping datacodes to (row, col) in data."""
     def find_row_col(datacode):
         #Match datacode to row, column.
         for row in xrange(0, 27):
