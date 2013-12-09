@@ -1,13 +1,13 @@
-/SMF/SMF.xcu
-/SMF/smf.py
 /SMF.oxt
 /SMF/morningstar.py
 /SMF/META-INF/manifest.xml
 /SMF/description.xml
-/.pydevproject
+/SMF/smf.py
+/SMF/SMF.xcu
 /SMF/Xsmf.rdb
-/.project
 /SMF/yahoo.py
+/.project
+/.pydevproject
 /src/bs4/builder/_html5lib.pyc
 /src/bs4/builder/_htmlparser.pyc
 /src/bs4/builder/__init__.pyc
