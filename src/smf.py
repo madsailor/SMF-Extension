@@ -12,10 +12,8 @@
 import os
 import sys
 import inspect
-import uno
 import unohelper
 from com.smf.ticker.getinfo import XSmf
-
 # Add current directory to path to import yahoo and morningstar modules
 cmd_folder = os.path.realpath(os.path.abspath
                               (os.path.split(inspect.getfile
