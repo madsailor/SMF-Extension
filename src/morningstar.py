@@ -10,8 +10,13 @@
 #  version 3 of the License, or (at your option) any later version.
 #
 import csv
-import urllib2
+import sys
 import yahoo
+if sys.version_info.major == 3:
+    from urllib.request import Request, urlopen
+    from urllib.error import URLError
+else:  
+    from urllib2 import Request, urlopen, URLError
 
 def find_exchange(self, ticker):
     """Determine exchange ticker is traded on so we can query Morningstar"""
@@ -39,11 +44,11 @@ def query_morningstar(self, exchange, symbol, url_ending):
     else:
         url = ('http://financials.morningstar.com/ajax/ReportProcess4CSV.html?'
                '&t=%s:%s%s' % (exchange, symbol, url_ending))
-    req = urllib2.Request(url)
+    req = Request(url)
     #Catch errors.
     try:
-        response = urllib2.urlopen(req)
-    except urllib2.URLError as e:
+        response = urlopen(req)
+    except URLError as e:
         self.keyratio_flag[0] = '1'
         self.financial_flag[0] = '1'
         if hasattr(e, 'reason'):

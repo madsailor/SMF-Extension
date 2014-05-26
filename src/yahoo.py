@@ -12,7 +12,13 @@
 #  Inspired by ystockquote by Corey Goldberg (cgoldberg@gmail.com)
 #
 import csv
-import urllib2
+import sys
+#Import url libraries from correct Python version 
+if sys.version_info.major == 3:
+    from urllib.request import Request, urlopen
+    from urllib.error import URLError
+else:  
+    from urllib2 import Request, urlopen, URLError
 
 def fetch_data(self, ticker, datacode):
     """Get Yahoo data and return desired element to user"""
@@ -46,11 +52,11 @@ def fetch_data(self, ticker, datacode):
 def query_yahoo(self, ticker, stat):
     """Query Yahoo for the data we want""" 
     url = 'http://finance.yahoo.com/d/quotes.csv?s=%s&f=%s' % (ticker, stat)
-    req = urllib2.Request(url)
+    req = Request(url)
     try:
-        response = urllib2.urlopen(req)
+        response = urlopen(req)
     #Catch errors.
-    except urllib2.URLError as e:
+    except URLError as e:
         self.yahoo_flag[0] = '1'
         if hasattr(e, 'reason'):
             return e.reason
