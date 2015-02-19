@@ -15,12 +15,12 @@ import yahoo
 if sys.version_info.major == 3:
     from urllib.request import Request, urlopen
     from urllib.error import URLError
+    from codecs import iterdecode
 else:  
     from urllib2 import Request, urlopen, URLError
 
 def find_exchange(self, ticker):
     """Determine exchange ticker is traded on so we can query Morningstar"""
-    #Query Yahoo to determine which exchange our ticker is traded on.
     exchange = yahoo.fetch_data(self, ticker, 54)
     if exchange == 'AMEX':
         exchange = 'XASE'
@@ -64,6 +64,8 @@ def query_morningstar(self, exchange, symbol, url_ending):
     #Discard first line if called by fetch_keyratios().
     if url_ending == '&region=usa&culture=en-US&cur=USD&order=desc':
         response.readline()
+    if sys.version_info.major == 3:
+        return csv.reader(iterdecode(response,'utf-8'))
     return csv.reader(response)
 
 def fetch_keyratios(self, ticker, datacode):
@@ -93,25 +95,25 @@ def fetch_keyratios(self, ticker, datacode):
         self.key_datacode_map = keyratio_datacode_map()
     #Lookup and return value from map.
     row, col = self.key_datacode_map[datacode]
-    return self.keyratio_data[row][col]
+    return (self.keyratio_data[row][col])
 
 def keyratio_datacode_map():
-    """Create a dictionary mapping datacodes to (row, col) of data."""
+    """ Create a dictionary mapping datacodes to (row, col) in data. """
     #Define rows that have no useful data.
     skip_list = {16, 17, 18, 28, 29, 38, 39, 40, 41, 46, 51, 56, 61, 62, 63, 69,
                  70, 71, 92, 93, 98, 99, 100}
     def find_row_col(datacode):
         skipped = 0
         #Match datacode to row, column.
-        for row in xrange(0, 109):
+        for row in range(0, 109):
             if row in skip_list:
                 skipped += 11
                 continue
-            for col in xrange(0, 12):
+            for col in range(0, 12):
                 if datacode == col + (11*row) - skipped:
                     return row, col
     #Create and return the dictionary.
-    return {datacode: find_row_col(datacode) for datacode in xrange(1, 947)}
+    return {datacode: find_row_col(datacode) for datacode in range(1, 947)}
 
 def fetch_financials(self, ticker, datacode):
     """Get Morningstar financial data and return desired element to user"""
@@ -182,12 +184,12 @@ def financial_data_setup(self, financial_reader):
                                             'N/A', 'N/A','N/A'])
     
 def financial_datacode_map():
-    """Create dictionary mapping datacodes to (row, col) in data."""
+    """Create a dictionary mapping datacodes to (row, col) in data."""
     def find_row_col(datacode):
         #Match datacode to row, column.
-        for row in xrange(0, 27):
-            for col in xrange(0, 7):
+        for row in range(0, 27):
+            for col in range(0, 7):
                 if datacode == col + (6*row):
                     return row, col
     #Create and return the dictionary.
-    return {datacode: find_row_col(datacode) for datacode in xrange(1, 163)}
+    return {datacode: find_row_col(datacode) for datacode in range(1, 163)}

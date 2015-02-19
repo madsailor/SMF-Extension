@@ -24,7 +24,7 @@ import yahoo
 import morningstar
 
 class SmfImpl(unohelper.Base, XSmf ):
-    
+    """Define the main class for the SMF extension """    
     def __init__( self, ctx ):
         self.ctx = ctx
         self.yahoo_flag = ['0', '']

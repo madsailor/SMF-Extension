@@ -17,6 +17,7 @@ import sys
 if sys.version_info.major == 3:
     from urllib.request import Request, urlopen
     from urllib.error import URLError
+    from codecs import iterdecode
 else:  
     from urllib2 import Request, urlopen, URLError
 
@@ -45,9 +46,8 @@ def fetch_data(self, ticker, datacode):
             self.yahoo_flag[0] = '0'
             self.yahoo_flag[1] = ticker
             #Store csv in memory.
-            for row in self.yahoo_reader:
-                self.yahoo_data = row
-    return self.yahoo_data[int(datacode)-1]
+            self.yahoo_data = [row for row in self.yahoo_reader]
+    return self.yahoo_data[0][int(datacode)-1]
 
 def query_yahoo(self, ticker, stat):
     """Query Yahoo for the data we want""" 
@@ -62,4 +62,6 @@ def query_yahoo(self, ticker, stat):
             return e.reason
         elif hasattr(e,'code'):
             return 'Error', e.code
+    if sys.version_info.major == 3:
+        return csv.reader(iterdecode(response,'utf-8'))
     return csv.reader(response)   
