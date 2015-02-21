@@ -13,13 +13,9 @@
 #
 import csv
 import sys
-#Import url libraries from correct Python version 
-if sys.version_info.major == 3:
-    from urllib.request import Request, urlopen
-    from urllib.error import URLError
-    from codecs import iterdecode
-else:  
-    from urllib2 import Request, urlopen, URLError
+from urllib.request import Request, urlopen
+from urllib.error import URLError
+from codecs import iterdecode
 
 def fetch_data(self, ticker, datacode):
     """Get Yahoo data and return desired element to user"""

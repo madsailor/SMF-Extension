@@ -12,12 +12,9 @@
 import csv
 import sys
 import yahoo
-if sys.version_info.major == 3:
-    from urllib.request import Request, urlopen
-    from urllib.error import URLError
-    from codecs import iterdecode
-else:  
-    from urllib2 import Request, urlopen, URLError
+from urllib.request import Request, urlopen
+from urllib.error import URLError
+from codecs import iterdecode
 
 def find_exchange(self, ticker):
     """Determine exchange ticker is traded on so we can query Morningstar"""
@@ -64,9 +61,7 @@ def query_morningstar(self, exchange, symbol, url_ending):
     #Discard first line if called by fetch_keyratios().
     if url_ending == '&region=usa&culture=en-US&cur=USD&order=desc':
         response.readline()
-    if sys.version_info.major == 3:
-        return csv.reader(iterdecode(response,'utf-8'))
-    return csv.reader(response)
+    return csv.reader(iterdecode(response,'utf-8'))
 
 def fetch_keyratios(self, ticker, datacode):
     """Get Morningstar key ratio data and return desired element to user"""

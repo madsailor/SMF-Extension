@@ -1,31 +1,90 @@
-import sys, csv, os, inspect
-try:
-    from urllib.request import Request, urlopen
-    from urllib.error import URLError
-    from codecs import iterdecode
-except:  
-    from urllib2 import Request, urlopen, URLError
+import sys, os, inspect, getopt
 # Add current directory to path to import smf module
 cmd_folder = os.path.realpath(os.path.abspath
                               (os.path.split(inspect.getfile
                                              ( inspect.currentframe() ))[0]))
 if cmd_folder not in sys.path:
-    sys.path.insert(0, cmd_folder)
-import smf   
+    sys.path.insert(0, cmd_folder)  
+import smf
+from pprint import pprint
 
-def gen_test():
+def main(argv):
+    main_smf = smf.SmfImpl(argv)
+    arg_funct = ''
+    arg_ticker = ''
+    try:
+        opts, args = getopt.getopt(argv, "f:t:",["function=","ticker="])
+    except getopt.GetoptError:
+        usage(2)
+    for opt, arg in opts:
+        if opt in ("-h", "--help"):
+            usage()
+        elif opt in ("-f", "--function"):
+            arg_funct = arg
+        elif opt in ("-t", "--ticker"):
+            arg_ticker = arg
+    print ("Function tested is", arg_funct)
+    print ("Ticker used is", arg_ticker)
+    if arg_funct == "morningkey":
+        key_test(main_smf, arg_ticker)
+    elif arg_funct == "morningfin":
+        fin_test(main_smf, arg_ticker)
+    elif arg_funct == "yahoo":
+        yahoo_test(main_smf, arg_ticker)
+    elif arg_funct == "advfn":
+        advfn_test(main_smf, arg_ticker)
+    sys.exit(2)
+
+def key_test(smf_py, ticker):
     test_data = []
-    ticker_list = ["XOM"]
-    for t in ticker_list:
-        for d in range (1,164):
-            test_data.append(t)
-            test_data.append(d)
-    return test_data
-
-if __name__ == "__main__":
-    smf = smf.SmfImpl(sys.argv)
-    test_data = gen_test()
+    for d in range (1,948):
+        test_data.append(ticker)
+        test_data.append(d)
     for val in range (0,len(test_data),2):
-        ticker = test_data[0 + val]
         datacode = test_data[1 + val]
-        print (ticker, datacode,': ', smf.getMorningKey(ticker, datacode))
+        print (datacode,': ', smf_py.getMorningKey(ticker, datacode))
+    sys.exit()
+
+def fin_test(smf_py, ticker):
+    test_data = []
+    for d in range (1,164):
+        test_data.append(ticker)
+        test_data.append(d)
+    for val in range (0,len(test_data),2):
+        datacode = test_data[1 + val]
+        print (datacode,': ', smf_py.getMorningFin(ticker, datacode))
+    sys.exit()
+    
+def yahoo_test(smf_py, ticker):
+    test_data = []
+    for d in range (1,83):
+        test_data.append(ticker)
+        test_data.append(d)
+    for val in range (0,len(test_data),2):
+        datacode = test_data[1 + val]
+        print (datacode,': ', smf_py.getYahoo(ticker, datacode))
+    sys.exit()
+    
+def advfn_test(smf_py, ticker):
+    datacode = 1
+    pprint(smf_py.getADVFN(ticker, datacode))
+#     test_data = []
+#     for d in range (1,2812):
+#         test_data.append(ticker)
+#         test_data.append(d)
+#     for val in range (0,len(test_data),2):
+#         datacode = test_data[1 + val]
+#         print (datacode,': ', smf_py.getADVFN(ticker, datacode))
+#    print("Test not yet ready.")
+    sys.exit()
+        
+def usage(err):
+    print ("Usage: smftest.py -f <function> -t <ticker>")
+    print ("Available functions are morningkey, morningfin, yahoo and advfn")
+    if err == 2:
+        sys.exit(2)
+    else:
+        sys.exit()
+        
+if __name__ == "__main__":
+    main(sys.argv[1:])
