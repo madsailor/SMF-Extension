@@ -90,7 +90,9 @@ def fetch_keyratios(self, ticker, datacode):
         self.key_datacode_map = keyratio_datacode_map()
     #Lookup and return value from map.
     row, col = self.key_datacode_map[datacode]
-    return (self.keyratio_data[row][col])
+    element = self.keyratio_data[row][col]
+    #Strip , from str so we can convert to float
+    return element.replace(',','')
 
 def keyratio_datacode_map():
     """ Create a dictionary mapping datacodes to (row, col) in data. """
@@ -137,7 +139,9 @@ def fetch_financials(self, ticker, datacode):
         self.fin_datacode_map = financial_datacode_map()
     #Lookup and return value from map.
     row, col = self.fin_datacode_map[datacode]
-    return self.financial_data[row][col]
+    element = self.financial_data[row][col]
+    #Strip , from str so we can convert to float
+    return element.replace(',','')
 
 def financial_data_setup(self, financial_reader):
     """Setup our own data structure since Morningstar csv format varies."""

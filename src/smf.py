@@ -22,7 +22,7 @@ if cmd_folder not in sys.path:
     sys.path.insert(0, cmd_folder)
 import yahoo
 import morningstar
-import advfn
+#import advfn
 
 class SmfImpl(unohelper.Base, XSmf ):
     """Define the main class for the SMF extension """    
