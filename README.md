@@ -51,4 +51,4 @@ The SMF Extension is released under the [![][shield:LGPL3]][License:3.0] which i
 [GIT:release]: http://github.com/madsailor/SMF-Extension/releases/latest
 [License:3.0]: http://www.gnu.org/licenses/lgpl.html
 [shield:release-latest]: http://img.shields.io/github/release/madsailor/SMF-Extension.svg
-[shield:LGPL3]: http://img.shields.io/badge/license-LGPL%20v.3-blue.svg"
+[shield:LGPL3]: http://img.shields.io/badge/license-LGPL%20v.3-blue.svg
