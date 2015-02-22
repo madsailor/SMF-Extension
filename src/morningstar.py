@@ -97,22 +97,19 @@ def fetch_keyratios(self, ticker, datacode):
     return element.replace(',','')
 
 def keyratio_datacode_map():
-    """ Create a dictionary mapping datacodes to (row, col) in data. """
+    """Create a dictionary mapping datacodes to (row, col) in data."""
     #Define rows that have no useful data.
     skip_list = {16, 17, 18, 28, 29, 38, 39, 40, 41, 46, 51, 56, 61, 62, 63, 69,
                  70, 71, 92, 93, 98, 99, 100}
-    def find_row_col(datacode):
-        skipped = 0
-        #Match datacode to row, column.
-        for row in range(0, 109):
-            if row in skip_list:
-                skipped += 11
-                continue
-            for col in range(0, 12):
-                if datacode == col + (11*row) - skipped:
-                    return row, col
+    #Setup dictionary structure.
+    allowed = sorted(set(range(109)) - skip_list)
+    #Map datacode to row, column.
+    def mapping (idx):
+        row, col = divmod(idx - 1, 11)
+        return allowed[row], col + 1
     #Create and return the dictionary.
-    return {datacode: find_row_col(datacode) for datacode in range(1, 947)}
+    return {datacode: mapping(datacode) 
+            for datacode in range(1, 947) }
 
 def fetch_financials(self, ticker, datacode):
     """Get Morningstar financial data and return desired element to user"""
