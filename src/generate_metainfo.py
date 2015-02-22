@@ -16,7 +16,7 @@ cur_dir = os.getcwd()
 
 # A unique ID for the extension.
 addin_id = "com.smf.ticker.getinfo"
-addin_version = "0.6.3"
+addin_version = "0.6.4"
 addin_displayname = "Stock Market Function Extension."
 addin_publisher_link = "https://github.com/madsailor/SMF-Extension"
 addin_publisher_name = "David Capron"

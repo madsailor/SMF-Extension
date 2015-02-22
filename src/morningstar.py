@@ -10,7 +10,6 @@
 #  version 3 of the License, or (at your option) any later version.
 #
 import csv
-import sys
 import yahoo
 from urllib.request import Request, urlopen
 from urllib.error import URLError
@@ -85,6 +84,9 @@ def fetch_keyratios(self, ticker, datacode):
             self.keyratio_flag[0] = '0'
             self.keyratio_flag[1] = ticker
             self.keyratio_data = [row for row in self.keyratio_reader]
+            #Append day for ISO standard dates.
+            for idx in range (2, 12):
+                self.keyratio_data[0][idx] += '-01' 
     #Check for existing datacode -> value map, if none exists then create it.
     if not hasattr(self, 'key_datacode_map'):
         self.key_datacode_map = keyratio_datacode_map()
@@ -181,14 +183,13 @@ def financial_data_setup(self, financial_reader):
                 rfd_header.append(d)
                 self.financial_data.append(['No Data', 'N/A', 'N/A', 'N/A',
                                             'N/A', 'N/A','N/A'])
-    
+    #Append day for ISO standard dates.
+    for idx in range (2, 7):
+        self.financial_data[0][idx] += '-01' 
+
 def financial_datacode_map():
     """Create a dictionary mapping datacodes to (row, col) in data."""
-    def find_row_col(datacode):
-        #Match datacode to row, column.
-        for row in range(0, 27):
-            for col in range(0, 7):
-                if datacode == col + (6*row):
-                    return row, col
-    #Create and return the dictionary.
-    return {datacode: find_row_col(datacode) for datacode in range(1, 163)}
+    def mapping( idx ):
+        row, col = divmod(idx - 1, 6)
+        return row, col + 1
+    return {idx: mapping(idx) for idx in range(1, 163)}
