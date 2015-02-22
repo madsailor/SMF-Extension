@@ -11,7 +11,7 @@ The SMF extension can also be found on the [LibreOffice Extension Center](http:/
 
 ### Usage
 
-The SMF Extension adds three new functions to Calc:
+The SMF Extension adds three new functions to Calc:  
 
 ```GETYAHOO(Ticker,Datacode) 
 GETMORNINGKEY(Ticker,Datacode) 
