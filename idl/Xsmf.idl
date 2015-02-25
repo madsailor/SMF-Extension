@@ -8,6 +8,7 @@ module com { module smf { module ticker { module getinfo {
       any getYahoo( [in] string a, [in] any b );
       any getMorningKey( [in] string a, [in] any b );
       any getMorningFin( [in] string a, [in] any b );
+      any getMorningQFin( [in] string a, [in] any b );
     };
 
 }; }; }; };

@@ -111,27 +111,35 @@ def keyratio_datacode_map():
     return {datacode: mapping(datacode) 
             for datacode in range(1, 947) }
 
-def fetch_financials(self, ticker, datacode):
+def fetch_financials(self, fin_type, ticker, datacode):
     """Get Morningstar financial data and return desired element to user"""
-    if datacode < 1 or datacode > 162 :
+    if datacode < 1 or datacode > 162:
         return 'Invalid Datacode'
     #Check whether flags indicate that we already have the data we need.
-    if self.financial_flag[0] == '1' or self.financial_flag[1] != ticker:
+    flags = self.financial_flag
+    if fin_type == 'qtr': 
+        flags = self.qfinancial_flag   
+    if flags[0] == '1' or flags[1] != ticker:
         #Query Yahoo for exchange and check for errors.
         exchange = find_exchange(self,ticker)
         if exchange not in ['XNYS', 'XASE', 'XNAS']:
             return exchange
         #Query Morningstar for financials and check for errors.
-        url_ending = ('&region=usa&culture=en-US&cur=USD&reportType=is'
+        if fin_type == 'qtr':      
+            url_ending = ('&region=usa&culture=en-US&cur=USD&reportType=is'
+                      '&period=3&dataType=A&order=desc&columnYear=5&rounding=3'
+                      '&view=raw&r=113199&denominatorView=raw&number=3')
+        else:
+            url_ending = ('&region=usa&culture=en-US&cur=USD&reportType=is'
                       '&period=12&dataType=A&order=desc&columnYear=5&rounding=3'
                       '&view=raw&r=113199&denominatorView=raw&number=3')
         financial_reader = query_morningstar(self, exchange, ticker, url_ending)
-        if self.financial_flag[0] == '1':
+        if flags[0] == '1':
             return financial_reader
         #Set flags and read data into memory upon successful query.
         else:
-            self.financial_flag[0] = '0'
-            self.financial_flag[1] = ticker
+            flags[0] = '0'
+            flags[1] = ticker
             financial_data_setup(self, financial_reader)
     #Check for existing datacode -> value map, if none exists then create it.
     if not hasattr(self, 'fin_datacode_map'):

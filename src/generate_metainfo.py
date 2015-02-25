@@ -108,6 +108,10 @@ define_function(smf_xml, \
     'getMorningFin', 'Fetches Morningstar Financials (5yr).', \
     [('a', 'The ticker symbol.'), ('b', 'The data code.')])
 
+define_function(smf_xml, \
+    'getMorningQFin', 'Fetches Morningstar Quarterly Financials (5qtr).', \
+    [('a', 'The ticker symbol.'), ('b', 'The data code.')])
+
 smf_xml.write('</node>\n')
 smf_xml.write('</node>\n')
 smf_xml.write('</node>\n')

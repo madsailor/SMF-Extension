@@ -31,6 +31,7 @@ class SmfImpl(unohelper.Base, XSmf ):
         self.yahoo_flag = ['0', '']
         self.keyratio_flag = ['0', '']
         self.financial_flag = ['0', '']
+        self.qfinancial_flag = ['0', '']
         self.advfn_flag = ['0', '']
     #Following functions are called and mapped by LO through the Xsmf.rdb file.
     def getYahoo( self, ticker, datacode ):
@@ -48,11 +49,21 @@ class SmfImpl(unohelper.Base, XSmf ):
         return x
     
     def getMorningFin( self, ticker, datacode):
+        fin_type = ''
         try:
-            x = float(morningstar.fetch_financials(self, ticker, datacode))
+            x = float(morningstar.fetch_financials(self, fin_type, ticker, datacode))
         except:
-            x = morningstar.fetch_financials(self, ticker, datacode)
+            x = morningstar.fetch_financials(self, fin_type, ticker, datacode)
         return x
+    
+    def getMorningQFin( self, ticker, datacode):
+        fin_type = 'qtr'
+        try:
+            x = float(morningstar.fetch_financials(self, fin_type,  ticker, datacode))
+        except:
+            x = morningstar.fetch_financials(self, fin_type, ticker, datacode)
+        return x
+    
 #getADVFN is a placeholder - not yet implemented
 #    def getADVFN( self, ticker, datacode):
 #        try:
