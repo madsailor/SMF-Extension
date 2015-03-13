@@ -28,6 +28,10 @@ class SmfImpl(unohelper.Base, XSmf ):
     """Define the main class for the SMF extension """    
     def __init__( self, ctx ):
         self.ctx = ctx
+        self.nyse_list = []
+        self.nasdaq_list = []
+        self.amex_list = []
+        self.exchange_flag = ['0', '0', '0']
         self.yahoo_flag = ['0', '']
         self.keyratio_flag = ['0', '']
         self.financial_flag = ['0', '']
