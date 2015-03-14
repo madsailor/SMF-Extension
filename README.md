@@ -11,11 +11,12 @@ The SMF extension can also be found on the [LibreOffice Extension Center](http:/
 
 ### Usage
 
-The SMF Extension adds three new functions to Calc:  
+The SMF Extension adds four new functions to Calc:  
 ```
 GETYAHOO(Ticker,Datacode) 
 GETMORNINGKEY(Ticker,Datacode) 
-GETMORNINGFIN(Ticker,Datacode)  
+GETMORNINGFIN(Ticker,Datacode)
+GETMORNINGQFIN(Ticker,Datacode)
 ```  
 
 Quotes **must** be used when entering the ticker directly ex: ```GETYAHOO("AAPL",1)```, but are **not** needed when referencing another cell ex: ```GETYAHOO(A1,1)```.
