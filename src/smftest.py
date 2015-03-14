@@ -62,7 +62,7 @@ def fin_test(smf_py, ticker, fin_type):
 
 def yahoo_test(smf_py, ticker):
     test_data = []
-    for d in range (1,83):
+    for d in range (1,55):
         test_data.append(ticker)
         test_data.append(d)
     for val in range (0,len(test_data),2):
