@@ -6,6 +6,7 @@
 /SMF/SMF.xcu
 /SMF/Xsmf.rdb
 /SMF/yahoo.py
+/SMF/advfn.py
 /.project
 /.pydevproject
 /src/__pycache__/advfn.cpython-34.pyc
@@ -13,5 +14,10 @@
 /src/__pycache__/parser.cpython-34.pyc
 /src/__pycache__/smf.cpython-34.pyc
 /src/__pycache__/yahoo.cpython-34.pyc
+/src/1.html
+/src/6.html
+/src/11.html
+/src/16.html
+/src/21.html
 /yhcodes.txt
 /advfn.txt

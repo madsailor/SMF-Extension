@@ -1,3 +1,14 @@
+#  smftest.py - Test SMF functions through the Python console
+#
+#  Copyright (c) 2015 David Capron (drbluesman@yahoo.com)
+#
+#  license: GNU LGPL
+#
+#  This library is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU Lesser General Public
+#  License as published by the Free Software Foundation; either
+#  version 3 of the License, or (at your option) any later version.
+#
 import sys, os, inspect, getopt
 # Add current directory to path to import smf module
 cmd_folder = os.path.realpath(os.path.abspath
@@ -6,7 +17,6 @@ cmd_folder = os.path.realpath(os.path.abspath
 if cmd_folder not in sys.path:
     sys.path.insert(0, cmd_folder)  
 import smf
-from pprint import pprint
 
 def main(argv):
     main_smf = smf.SmfImpl(argv)
@@ -71,16 +81,14 @@ def yahoo_test(smf_py, ticker):
     sys.exit()
     
 def advfn_test(smf_py, ticker):
-    datacode = 1
-    pprint(smf_py.getADVFN(ticker, datacode))
-#     test_data = []
-#     for d in range (1,2812):
-#         test_data.append(ticker)
-#         test_data.append(d)
-#     for val in range (0,len(test_data),2):
-#         datacode = test_data[1 + val]
-#         print (datacode,': ', smf_py.getADVFN(ticker, datacode))
-#    print("Test not yet ready.")
+    test_data = []
+    for d in range (1,254):
+#    for d in range (1,2):
+        test_data.append(ticker)
+        test_data.append(d)
+    for val in range (0,len(test_data),2):
+        datacode = test_data[1 + val]
+        print (datacode,': ', smf_py.getADVFN(ticker, datacode))
     sys.exit()
         
 def usage(err):

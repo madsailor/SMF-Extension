@@ -99,18 +99,23 @@ smf_xml.write('<node oor:name="' + instance_id + '" oor:op="replace">\n')
 smf_xml.write('<node oor:name="AddInFunctions">\n')
 
 define_function(smf_xml, \
-    'getYahoo', 'Fetches Yahoo Financial Data.', \
+    'getYahoo', 'Fetches Yahoo Financial Data.  a = "TICKER", b = "DATACODE"', \
     [('a', 'The ticker symbol.'), ('b', 'The data code.')])
 define_function(smf_xml, \
-    'getMorningKey', 'Fetches Morningstar Key Ratios (11yr).', \
+    'getMorningKey', \
+    'Fetches Morningstar Key Ratios (11yr).  a = "TICKER", b = "DATACODE"', \
     [('a', 'The ticker symbol.'), ('b', 'The data code.')])
 define_function(smf_xml, \
-    'getMorningFin', 'Fetches Morningstar Financials (5yr).', \
+    'getMorningFin', \
+    'Fetches Morningstar Financials (5yr).  a = "TICKER", b = "DATACODE"', \
     [('a', 'The ticker symbol.'), ('b', 'The data code.')])
-
 define_function(smf_xml, \
-    'getMorningQFin', 'Fetches Morningstar Quarterly Financials (5qtr).', \
+    'getMorningQFin', \
+    'Fetches Morningstar Quarterly Financials (5qtr).  a = "TICKER", b = "DATACODE"', \
     [('a', 'The ticker symbol.'), ('b', 'The data code.')])
+define_function(smf_xml, \
+    'getADVFN', 'Fetches ADVFN Financial Data.  a = "TICKER", b = "DATACODE"', \
+    [('a', 'The ticker symbol.'), ('b', 'The data code."')])
 
 smf_xml.write('</node>\n')
 smf_xml.write('</node>\n')

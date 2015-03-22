@@ -9,6 +9,7 @@ module com { module smf { module ticker { module getinfo {
       any getMorningKey( [in] string a, [in] any b );
       any getMorningFin( [in] string a, [in] any b );
       any getMorningQFin( [in] string a, [in] any b );
+      any getADVFN( [in] string a, [in] any b );
     };
 
 }; }; }; };

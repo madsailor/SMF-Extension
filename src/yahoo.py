@@ -11,11 +11,12 @@
 #
 #  Inspired by ystockquote by Corey Goldberg (cgoldberg@gmail.com)
 #
-import csv
-import sys
-import datetime
-from urllib.request import Request, urlopen
-from urllib.error import URLError
+import csv, sys, datetime
+try:
+    from urllib.request import Request, urlopen
+    from urllib.error import URLError
+except ImportError:
+    from urllib2 import Request, urlopen, URLError
 from codecs import iterdecode
 
 def fetch_data(self, ticker, datacode):
