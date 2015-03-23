@@ -18,6 +18,7 @@ cp -f "${PWD}"/src/smf.py "${PWD}"/SMF/
 cp -f "${PWD}"/src/morningstar.py "${PWD}"/SMF/
 cp -f "${PWD}"/src/yahoo.py "${PWD}"/SMF/
 cp -f "${PWD}"/src/advfn.py "${PWD}"/SMF/
+cp -f "${PWD}"/src/description-en-US.txt "${PWD}"/SMF/
 python "${PWD}"/src/generate_metainfo.py
 
 #Package into oxt file

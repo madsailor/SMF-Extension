@@ -1,0 +1,1 @@
+The SMF Extension enables you to create spreadsheets with stock market data pulled directly from the web.  Currently supported sources include Yahoo Finance, Morningstar, and ADVFN.
