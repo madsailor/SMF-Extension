@@ -12,9 +12,10 @@
 try:
     from urllib.request import Request, urlopen
     from urllib.error import URLError
+    from html.parser import HTMLParser
 except ImportError:
     from urllib2 import Request, urlopen, URLError
-from html.parser import HTMLParser
+    from HTMLParser import HTMLParser
 import smf
 
 def fetch_advfn(self, ticker, datacode):
@@ -29,7 +30,7 @@ def fetch_advfn(self, ticker, datacode):
         query_advfn(self, ticker, start)#Enable for normal use.
 #        test_query_advfn(self, ticker, start)#Enable for testing purposes only.
         clean_advfn(self)
-    return self.advfn_data[datacode-1]
+    return self.advfn_data[int(datacode-1)]
 
 def test_query_advfn(self, ticker, start):
     """Open local html files for testing purposes"""
