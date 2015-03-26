@@ -9,15 +9,22 @@
 #  License as published by the Free Software Foundation; either
 #  version 3 of the License, or (at your option) any later version.
 #
-import os, sys, inspect, unohelper, csv
+import os, sys, inspect, csv
+#Try/except is for LibreOffice Python3.x vs. OpenOffice Python2.x.
+#Path appends are for testing in Python shell.
 try:
     from urllib.request import Request, urlopen
     from urllib.error import URLError
+#    sys.path.append('/usr/lib/libreoffice/program')
 except ImportError:
     from urllib2 import Request, urlopen, URLError
+#     sys.path.append('/usr/lib/openoffice4/program')
+#     if getattr(os.environ, 'URE_BOOTSTRAP', None) is None:
+#         os.environ['URE_BOOTSTRAP'] = "vnd.sun.star.pathname:/home/dave/Desktop/aooinstall/en-US/DEBS/install/opt/openoffice4/program/fundamentalrc"
 from codecs import iterdecode
+import unohelper
 from com.smf.ticker.getinfo import XSmf
-# Add current directory to path to import yahoo morningstar modules
+# Add current directory to path to import yahoo, morningstar and advfn modules
 cmd_folder = os.path.realpath(os.path.abspath
                               (os.path.split(inspect.getfile
                                              ( inspect.currentframe() ))[0]))

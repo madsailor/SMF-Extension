@@ -13,9 +13,11 @@ try:
     from urllib.request import Request, urlopen
     from urllib.error import URLError
     from html.parser import HTMLParser
+    major_version = 3
 except ImportError:
     from urllib2 import Request, urlopen, URLError
     from HTMLParser import HTMLParser
+    major_version = 2
 import smf
 
 def fetch_advfn(self, ticker, datacode):
@@ -62,7 +64,10 @@ def query_advfn(self, ticker, start):
             return 'Error', e.code
     #Parse raw html for the data we want
     parse_advfn = ADVFNParser()
-    raw_html = response.read().decode(response.headers.get_content_charset())
+    if major_version == 3:
+        raw_html = response.read().decode(response.headers.get_content_charset())
+    else:
+        raw_html = response.read().decode(response.headers.getparam('charset'))
     parse_advfn.feed(raw_html)
     self.advfn_data = parse_advfn.result()
     return

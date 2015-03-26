@@ -9,6 +9,7 @@
 #  License as published by the Free Software Foundation; either
 #  version 3 of the License, or (at your option) any later version.
 #
+from __future__ import print_function
 import sys, os, inspect, getopt
 # Add current directory to path to import smf module
 cmd_folder = os.path.realpath(os.path.abspath
