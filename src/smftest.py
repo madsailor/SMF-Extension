@@ -10,7 +10,18 @@
 #  version 3 of the License, or (at your option) any later version.
 #
 from __future__ import print_function
-import sys, os, inspect, getopt
+import sys
+import os
+import inspect
+import getopt
+#Add path to LO/OO components.
+if sys.version_info.major == 3:
+    sys.path.append('/usr/lib/libreoffice/program')
+else:
+    sys.path.append('/usr/lib/openoffice4/program')
+    if getattr(os.environ, 'URE_BOOTSTRAP', None) is None:
+        os.environ['URE_BOOTSTRAP'] = "vnd.sun.star.pathname:/usr/lib/"\
+                                      "openoffice4/program/fundamentalrc"
 # Add current directory to path to import smf module
 cmd_folder = os.path.realpath(os.path.abspath
                               (os.path.split(inspect.getfile
@@ -83,8 +94,8 @@ def yahoo_test(smf_py, ticker):
     
 def advfn_test(smf_py, ticker):
     test_data = []
-    for d in range (1,254):
-#    for d in range (1,2):
+    for d in range (1,5293):
+#    for d in range (1,26):
         test_data.append(ticker)
         test_data.append(d)
     for val in range (0,len(test_data),2):

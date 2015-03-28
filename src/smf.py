@@ -47,8 +47,8 @@ class SmfImpl(unohelper.Base, XSmf ):
         self.qfinancial_flag = ['0', '']
         #Setup for url calls to ADVFN in 5 chunks, most recent year first.
         self.advfn_start_list = [21, 16, 11, 6, 1]
-        #Format: start_list index, year_count, total_year_count, ticker, Error.
-        self.advfn_flag = [0, 0, 0, '', None]
+        #start_list idx, year_count, total_year_count, ticker, Error, have data.
+        self.advfn_flag = [0, 0, 0, '', None, False]
         self.advfn_data = []
         self.old_advfn_data = []
         self.total_advfn_data = []
