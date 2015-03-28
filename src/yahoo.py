@@ -11,7 +11,9 @@
 #
 #  Inspired by ystockquote by Corey Goldberg (cgoldberg@gmail.com)
 #
-import csv, sys, datetime
+import csv
+import sys
+import datetime
 try:
     from urllib.request import Request, urlopen
     from urllib.error import URLError
@@ -49,22 +51,31 @@ def fetch_data(self, ticker, datacode):
 def cleanup_yahoo(self):
     """Cleanup as many elements as possible to standardized forms"""
     #Format dividend dates to ISO standard.
-    self.yahoo_data[0][2] = str((datetime.datetime.strptime(self.yahoo_data[0][2],'%m/%d/%Y')).date())
-    self.yahoo_data[0][3] = str((datetime.datetime.strptime(self.yahoo_data[0][3],'%m/%d/%Y')).date())
+    self.yahoo_data[0][2] = str((datetime.datetime.strptime
+                                 (self.yahoo_data[0][2],'%m/%d/%Y')).date())
+    self.yahoo_data[0][3] = str((datetime.datetime.strptime
+                                 (self.yahoo_data[0][3],'%m/%d/%Y')).date())
     #Format last trade date to ISO standard.
-    self.yahoo_data[0][7] = str((datetime.datetime.strptime(self.yahoo_data[0][7],'%m/%d/%Y')).date())
+    self.yahoo_data[0][7] = str((datetime.datetime.strptime
+                                 (self.yahoo_data[0][7],'%m/%d/%Y')).date())
     #Format last trade time to ISO standard.
-    self.yahoo_data[0][9] = str((datetime.datetime.strptime(self.yahoo_data[0][9],'%I:%M%p')).time())
+    self.yahoo_data[0][9] = str((datetime.datetime.strptime
+                                 (self.yahoo_data[0][9],'%I:%M%p')).time())
     #Strip % from chg in pct, moving avg's, and pct chg from 52wk high/low.
     for index_1 in (10, 12, 16, 29, 31):
-        self.yahoo_data[0][index_1] = (self.yahoo_data[0][index_1]).translate({ord(i):None for i in '%'})
+        self.yahoo_data[0][index_1] = (self.yahoo_data[0][index_1]
+                                       ).translate({ord(i):None for i in '%'})
     #Convert market cap, rev, EBITDA to floats.
     for index_2 in (26, 43, 45):
         big_val = self.yahoo_data[0][index_2]
         if 'B' in big_val:
-            self.yahoo_data[0][index_2] = ((float(big_val.translate({ord(i):None for i in 'B'})))*1000000000)
+            self.yahoo_data[0][index_2] = ((float(big_val.translate
+                                                  ({ord(i):None for i in 'B'}
+                                                   )))*1000000000)
         elif 'M' in big_val:
-            self.yahoo_data[0][index_2] = ((float(big_val.translate({ord(i):None for i in 'M'})))*1000000)
+            self.yahoo_data[0][index_2] = ((float(big_val.translate
+                                                  ({ord(i):None for i in 'M'}
+                                                   )))*1000000)
     return
  
 def query_yahoo(self, ticker, stat):
@@ -82,4 +93,4 @@ def query_yahoo(self, ticker, stat):
             return 'Error', e.code
     if sys.version_info.major == 3:
         return csv.reader(iterdecode(response,'utf-8'))
-    return csv.reader(response)   
+    return csv.reader(response)
